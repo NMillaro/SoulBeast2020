@@ -333,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828288f0f6eab89468fb420192da4442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrust: 2
+  thrust: 1
   knockTime: 0.2
   otherTag: enemy
   player: {fileID: 0}
@@ -429,7 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828288f0f6eab89468fb420192da4442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrust: 2
+  thrust: 1
   knockTime: 0.2
   otherTag: enemy
   player: {fileID: 0}
@@ -526,7 +526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828288f0f6eab89468fb420192da4442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrust: 2
+  thrust: 1
   knockTime: 0.2
   otherTag: enemy
   player: {fileID: 0}
@@ -702,7 +702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  speed: 6
+  speed: 5.5
   distance: 2
   currentHealth: {fileID: 11400000, guid: 81591b75d4c1c2740b8571e0c480f9ab, type: 2}
   currentEnergy: {fileID: 11400000, guid: 3239df57f6f9bfb48a61301c14c96d9d, type: 2}
@@ -728,7 +728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisMonster: {fileID: 11400000, guid: ecd8221b9312ee44f8e23d927cfe54a7, type: 2}
-  anim: {fileID: 4163075835176581765}
+  anim: {fileID: 0}
   gm: {fileID: 0}
   currentLevel: {fileID: 11400000, guid: ba31eeb790eb6234baaf3527ae7c5db2, type: 2}
   currentExp: {fileID: 11400000, guid: f9bc0555e1ca5e141b1b5557d414dc16, type: 2}
@@ -740,8 +740,8 @@ MonoBehaviour:
   WillpowerStat: 0
   SpeedStat: 0
   ownedTechs:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 1e82484f6e290ee49834df257eec52f2, type: 2}
+  - {fileID: 11400000, guid: b65dd401bcf33f54abd93468380890ce, type: 2}
 --- !u!95 &4163075835176581765
 Animator:
   serializedVersion: 3
@@ -884,7 +884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828288f0f6eab89468fb420192da4442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrust: 2
+  thrust: 1
   knockTime: 0.2
   otherTag: enemy
   player: {fileID: 0}
@@ -950,7 +950,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.012615204, y: -0.13438368}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -961,7 +961,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1939888, y: 1.4219027}
+  m_Size: {x: 1, y: 1.2}
   m_EdgeRadius: 0
 --- !u!114 &3854290959979472696
 MonoBehaviour:
@@ -975,10 +975,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d752ecbb4a44cd42993bb7a099ea623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: {fileID: 11400000, guid: 81591b75d4c1c2740b8571e0c480f9ab, type: 2}
+  maxHealth: 0
   currentHealth: 0
   healthMessage: {fileID: 11400000, guid: 5981e9937696cb7409b3ee5c90edde80, type: 2}
   triggerCollider: {fileID: 0}
+  player: {fileID: 0}
   damageMessage: {fileID: 11400000, guid: 2413a1cf0a0897544bf6c750fa07f069, type: 2}
 --- !u!1 &9061955556883785560
 GameObject:
@@ -990,9 +991,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6895941064665774296}
   - component: {fileID: 6971544899738029688}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LevelSystem
-  m_TagString: Untagged
+  m_TagString: LevelSystem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1033,3 +1034,6 @@ MonoBehaviour:
   particleEffect: {fileID: 6280838234850713212, guid: eee741403c9e1fe44b103146850e1b1d,
     type: 3}
   effectDelay: 1
+  fadeTimer: 1
+  scaleAmount: 1
+  isLevelingUp: 0

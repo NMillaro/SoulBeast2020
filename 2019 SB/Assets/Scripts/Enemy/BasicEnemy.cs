@@ -18,7 +18,7 @@ public class BasicEnemy : MonoBehaviour
 
     [Header("Enemy Stats")]
     //public FloatValue maxHealth;
-    public FloatValue health;
+    //public FloatValue health;
     public string enemyName;
     public int baseAttack;
     public float moveSpeed;
@@ -51,12 +51,12 @@ public class BasicEnemy : MonoBehaviour
         transform.position = homePosition;
     }
 
-    private void UpdateHealth()
-    {
-        health.RuntimeValue = gameObject.GetComponent<MonsterStats>().HPStat;
-        Debug.Log(gameObject.name + " " + health.RuntimeValue);
+    //private void UpdateHealth()
+    //{
+    //    health.RuntimeValue = gameObject.GetComponent<MonsterStats>().HPStat;
+    //    Debug.Log(gameObject.name + " " + health.RuntimeValue);
 
-    }
+    //}
 
     public void Knock(Rigidbody2D myRigidbody, float knockTime)
     {
@@ -77,16 +77,16 @@ public class BasicEnemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        if ((currentState == EnemyState.idle || currentState == EnemyState.walk || currentState == EnemyState.attack) && currentState != EnemyState.stagger 
+        if ((currentState == EnemyState.idle || currentState == EnemyState.walk || currentState == EnemyState.attack) && currentState != EnemyState.stagger
             && player.GetComponent<PlayerMain>().currentState != CharacterState.interact)
         {
             CheckDistance();
-           //anim.speed = 1f;
+            //anim.speed = 1f;
         }
-        //else if (player.GetComponent<PlayerMain>().currentState == PlayerState.interact)
-        //{
-        //   anim.speed = 0f;
-        //}
+        else if (player.GetComponent<PlayerMain>().currentState == CharacterState.interact)
+        {
+           //anim.speed = 0f;
+        }
 
         if (anim.GetBool("moving") == false)
         {
@@ -105,7 +105,7 @@ public class BasicEnemy : MonoBehaviour
             Vector3 temp = Vector3.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
 
             ChangeAnim(temp - transform.position);
-            myRigidbody.MovePosition(temp);
+            //myRigidbody.MovePosition(temp);
             ChangeState(EnemyState.walk);
             anim.SetBool("wakeUp", true);
             anim.SetBool("moving", true);

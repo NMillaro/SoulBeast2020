@@ -13,6 +13,7 @@ TagManager:
   - enemyAttack
   - Minimap
   - Map
+  - LevelSystem
   layers:
   - Default
   - TransparentFX

@@ -35,6 +35,7 @@ public class MonsterMain : MonoBehaviour
     private GameObject player;
     private GameObject follower;
     private GameObject gameManager;
+    private float gameSpeed;
     private GameObject currentActiveChar;
     public Vector3 attackDirection;
 
@@ -48,7 +49,8 @@ public class MonsterMain : MonoBehaviour
     public Vector3 mousePosition;
     public Vector3 playerPosition;
 
-    private float timestamp;
+    private float timestamp = 0.0f;
+    private float magicTimestamp = 0.0f;
 
     void Start()
     {
@@ -75,6 +77,7 @@ public class MonsterMain : MonoBehaviour
         attackDirection = mousePosition - playerPosition;
         change.x = Input.GetAxisRaw("Horizontal");
         change.y = Input.GetAxisRaw("Vertical");
+        gameSpeed = gameManager.GetComponent<GameManager>().GameSpeed.RuntimeValue;
 
 
         if (!isKnocked)
@@ -82,10 +85,10 @@ public class MonsterMain : MonoBehaviour
             myRigidbody.velocity = Vector2.zero;
         }
 
-        GetInput();
+        
 
         //TODO ENERGY
-        if (currentEnergy.RuntimeValue != currentEnergy.initialValue)
+        if ((currentEnergy.RuntimeValue != currentEnergy.initialValue) && (Time.time > (magicTimestamp + 5.0f)) && gameSpeed != 0)
         {
             if (!isRegenEnergy)
             {
@@ -93,22 +96,33 @@ public class MonsterMain : MonoBehaviour
             }
         }
 
-        if (currentActiveChar == follower && (currentState == CharacterState.walk || currentState == CharacterState.idle) && currentState != CharacterState.stagger)
+        if (gameSpeed != 0)
         {
-            UpdateAnimationAndMove();
-        }
+            GetInput();
+            animator.speed = 1f;
+            myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-        if (currentActiveChar == player && (currentState == CharacterState.walk || currentState == CharacterState.idle) && player.GetComponent<PlayerMain>().currentState != CharacterState.interact)
-        {
-            FollowCharacter();
-            //need to freeze power ups
-           //animator.speed = 1f;
-        }  
+            if (currentActiveChar == follower && (currentState == CharacterState.walk || currentState == CharacterState.idle) && currentState != CharacterState.stagger)
+            {
+                UpdateAnimationAndMove();
+            }
 
-        else if (player.GetComponent<PlayerMain>().currentState == CharacterState.interact)  
+            if (currentActiveChar == player && (currentState == CharacterState.walk || currentState == CharacterState.idle) && player.GetComponent<PlayerMain>().currentState != CharacterState.interact)
+            {
+                FollowCharacter();
+                //need to freeze power ups
+                //animator.speed = 1f;
+            }
+
+            else if (player.GetComponent<PlayerMain>().currentState == CharacterState.interact)
+            {
+                animator.SetBool("moving", false);
+                // animator.speed = 0f;
+            }
+        }else if (gameSpeed == 0)
         {
-            animator.SetBool("moving", false);
-            // animator.speed = 0f;
+            animator.speed = 0f;
+            myRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
         }
     }
 
@@ -117,7 +131,8 @@ public class MonsterMain : MonoBehaviour
     {
         isRegenEnergy = true;
 
-        while (currentEnergy.RuntimeValue < currentEnergy.initialValue && (player.GetComponent<PlayerMain>().currentState != CharacterState.interact))
+        while (currentEnergy.RuntimeValue < currentEnergy.initialValue && (player.GetComponent<PlayerMain>().currentState != CharacterState.interact)
+            && (Time.time > (magicTimestamp + 5.0f)))
         {
             currentEnergy.RuntimeValue += follower.GetComponent<MonsterStats>().WillpowerStat;
             playerEnergyMessage.Raise();
@@ -158,8 +173,9 @@ public class MonsterMain : MonoBehaviour
                 if (currentEnergy.RuntimeValue > follower.GetComponent<MonsterStats>().ownedTechs[1].energyCost)
                 {
                     ChangeAnim(attackDirection);
+                    magicTimestamp = Time.time;
                     StartCoroutine(SecondAttackCo());
-
+                
                     currentEnergy.RuntimeValue -= follower.GetComponent<MonsterStats>().ownedTechs[1].energyCost; //energy used and deducted by attack2
                     playerEnergyMessage.Raise();
                 }

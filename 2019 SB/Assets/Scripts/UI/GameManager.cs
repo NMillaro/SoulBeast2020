@@ -38,7 +38,8 @@ public class GameManager : MonoBehaviour
     public LevelSystem levelSystem;
     public MonsterInventory ownedMonsters;
 
-    [Header("Save System")]
+    [Header("Pause System")]
+    public FloatValue GameSpeed;
 
     [Header("Scriptable Objects")]
     public List<ScriptableObject> objects = new List<ScriptableObject>();
@@ -82,6 +83,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        GameSpeed.RuntimeValue = GameSpeed.initialValue;
+
         if (follower != null)
         {
             UpdateHP();
@@ -144,6 +147,7 @@ public class GameManager : MonoBehaviour
     public void UpdateUI()
     {
         currentActiveChar = GameObject.FindWithTag(lastActiveChar.initialName);
+        levelSystem = GameObject.FindWithTag("LevelSystem").GetComponent<LevelSystem>();
         updateCoins.Raise();
 
         if (follower != null)
@@ -198,7 +202,7 @@ public class GameManager : MonoBehaviour
 
     public void Swap(string Name)
     {
-        if (follower != null)
+        if (follower != null && GameSpeed.RuntimeValue != 0)
         {
             if (Name == "Player") //when E pressed swap PC between player/follower
             {

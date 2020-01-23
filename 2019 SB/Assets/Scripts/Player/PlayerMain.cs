@@ -19,6 +19,7 @@ public class PlayerMain : MonoBehaviour
     public GameObject player;
     public GameObject follower;
     protected GameObject gameManager;
+    private float gameSpeed;
     public GameObject currentActiveChar;
     public VectorValue currentPosition;
     public Vector3 monsterDirection;
@@ -63,6 +64,7 @@ public class PlayerMain : MonoBehaviour
         currentActiveChar = gameManager.GetComponent<GameManager>().currentActiveChar;
         mousePosition = Input.mousePosition;
         playerPosition = pCamera.WorldToScreenPoint(player.transform.position);
+        gameSpeed = gameManager.GetComponent<GameManager>().GameSpeed.RuntimeValue;
 
         if (follower != null)
         {
@@ -82,44 +84,55 @@ public class PlayerMain : MonoBehaviour
             return;
         }
 
-        if (currentState == CharacterState.combat)
+        if (gameSpeed != 0)
         {
+            animator.speed = 1f;
+            myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-            if (Vector3.Distance(transform.position, currentActiveChar.transform.position) > combatDistance) // if distance from player target is greater than distance variable, move toward player
+            if (currentState == CharacterState.combat)
             {
-                Vector3 temp = Vector3.MoveTowards(transform.position, currentActiveChar.transform.position, speed * Time.deltaTime);
 
-                ChangeAnim(temp - transform.position);
-                animator.SetBool("moving", true);
-                transform.position = Vector2.MoveTowards(transform.position, currentActiveChar.transform.position, speed * Time.deltaTime); //move towards the player
-
-
-                if (Vector3.Distance(transform.position, currentActiveChar.transform.position) > 10) //if distance greater than 10, teleport to player
+                if (Vector3.Distance(transform.position, currentActiveChar.transform.position) > combatDistance) // if distance from player target is greater than distance variable, move toward player
                 {
-                    transform.position = (currentActiveChar.transform.position);
+                    Vector3 temp = Vector3.MoveTowards(transform.position, currentActiveChar.transform.position, speed * Time.deltaTime);
+
+                    ChangeAnim(temp - transform.position);
+                    animator.SetBool("moving", true);
+                    transform.position = Vector2.MoveTowards(transform.position, currentActiveChar.transform.position, speed * Time.deltaTime); //move towards the player
+
+
+                    if (Vector3.Distance(transform.position, currentActiveChar.transform.position) > 10) //if distance greater than 10, teleport to player
+                    {
+                        transform.position = (currentActiveChar.transform.position);
+                    }
+                }
+
+                else if (change == Vector3.zero || Vector3.Distance(transform.position, currentActiveChar.transform.position) < combatDistance / 1.05) // if distance from player target is greater than distance variable, move toward player
+                {
+                    animator.SetBool("moving", false);
+                    ChangeAnim(monsterDirection);
+
                 }
             }
 
-            else if (change == Vector3.zero || Vector3.Distance(transform.position, currentActiveChar.transform.position) < combatDistance / 1.05) // if distance from player target is greater than distance variable, move toward player
+            if (currentActiveChar == player && (currentState == CharacterState.walk || currentState == CharacterState.idle))
             {
-                animator.SetBool("moving", false);
-                ChangeAnim(monsterDirection);
+                UpdateAnimationAndMove();
+            }
 
+            if (currentActiveChar == follower && (currentState == CharacterState.walk || currentState == CharacterState.idle) && player.GetComponent<PlayerMain>().currentState != CharacterState.interact)
+            {
+                if (follower != null)
+                {
+                    MoveCharacter();
+                }
             }
         }
 
-        if (currentActiveChar == player && (currentState == CharacterState.walk || currentState == CharacterState.idle))
+        else if (gameSpeed == 0)
         {
-            UpdateAnimationAndMove();
-        }
-
-        if (currentActiveChar == follower && (currentState == CharacterState.walk || currentState == CharacterState.idle) && player.GetComponent<PlayerMain>().currentState != CharacterState.interact)
-        {
-            if (follower != null)
-            {
-                MoveCharacter();
-                // animator.speed = 1f;
-            }
+            animator.speed = 0f;
+            myRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
         }
     }
 

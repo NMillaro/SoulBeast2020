@@ -15,8 +15,8 @@ MonoBehaviour:
   techName: Fireball
   category: 1
   techType: 3
-  energyCost: 10
-  power: 40
+  energyCost: 100
+  power: 30
   otherTag: 
   thisMonster: {fileID: 0}
   thisProjectile: {fileID: 3501973114993569550, guid: d572c6613f0e5714eafaa28c31bb1405,

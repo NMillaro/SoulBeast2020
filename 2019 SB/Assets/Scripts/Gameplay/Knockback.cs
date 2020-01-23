@@ -44,8 +44,8 @@ public class Knockback : MonoBehaviour
                         {
                             if (gameObject.CompareTag("FollowerAttack"))
                             {  
-                                hit.GetComponent<BasicEnemy>().currentState = EnemyState.stagger;
-                                other.GetComponentInParent<BasicEnemy>().Knock(hit, knockTime);
+                                hit.GetComponent<BasicEnemyAI>().currentState = EnemyState.stagger;
+                                other.GetComponentInParent<BasicEnemyAI>().Knock(hit, knockTime);
                                 //Debug.Log("enemy hit");
                             }
                             else if (gameObject.CompareTag("enemy"))

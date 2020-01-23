@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BoundedNPC : Sign
 {
+    [Header("Game Speed")]
+    public float gameSpeed;
+
     private Vector3 directionVector;
     private Transform myTransform;
     public float speed;
@@ -37,40 +40,54 @@ public class BoundedNPC : Sign
     {
         base.Update();
 
-        if (isMoving)
-        {
-            moveTimeSeconds -= Time.deltaTime;
-            if(moveTimeSeconds <= 0)
-            {
-                moveTimeSeconds = Random.Range(minMoveTime, maxMoveTime);
-                isMoving = false;
-            }
-            if (!playerInRange)
-            {
-                Move();
-                anim.SetBool("moving", true);
-            }else
-            {
-                anim.SetBool("moving", false);
-            }
+        gameSpeed = gameManager.GetComponent<GameManager>().GameSpeed.RuntimeValue;
 
-        }
-
-        else
+        if (gameSpeed != 0)
         {
-            waitTimeSeconds -= Time.deltaTime;
-            if (waitTimeSeconds <= 0)
+            anim.speed = 1f;
+            myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+            if (isMoving)
             {
+                moveTimeSeconds -= Time.deltaTime;
+                if (moveTimeSeconds <= 0)
+                {
+                    moveTimeSeconds = Random.Range(minMoveTime, maxMoveTime);
+                    isMoving = false;
+                }
                 if (!playerInRange)
                 {
-                    ChooseDifferentDirection();
+                    Move();
+                    anim.SetBool("moving", true);
                 }
-                isMoving = true;
-                waitTimeSeconds = Random.Range(minWaitTime, maxWaitTime);
+                else
+                {
+                    anim.SetBool("moving", false);
+                }
+
             }
-            
-            anim.SetBool("moving", false);
-            myRigidbody.velocity = Vector2.zero; 
+
+            else
+            {
+                waitTimeSeconds -= Time.deltaTime;
+                if (waitTimeSeconds <= 0)
+                {
+                    if (!playerInRange)
+                    {
+                        ChooseDifferentDirection();
+                    }
+                    isMoving = true;
+                    waitTimeSeconds = Random.Range(minWaitTime, maxWaitTime);
+                }
+
+                anim.SetBool("moving", false);
+                myRigidbody.velocity = Vector2.zero;
+            }
+        }
+        else if (gameSpeed == 0)
+        {
+            anim.speed = 0f;
+            myRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
         }
     }
 

@@ -6,7 +6,6 @@ using Pathfinding;
 public class MeleeEnemy : BasicEnemy
 {
     public Collider2D boundary;
-    public AIPath aiPath;
 
     public override void CheckDistance()
     {

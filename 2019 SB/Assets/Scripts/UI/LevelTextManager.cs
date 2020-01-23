@@ -33,6 +33,7 @@ public class LevelTextManager : MonoBehaviour
 
     private void SystemStart()
     {
+        levelSystem = GameObject.FindWithTag("LevelSystem").GetComponent<LevelSystem>();
         SetLevelSystem(levelSystem);
     }
 

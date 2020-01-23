@@ -22,7 +22,7 @@
 		"Magic": 1.0,
 		"Light": 1.0,
 		"Dark": 1.0,
-		"Chaos": 1.0,
+		"Chaos": 0.5,
 		"Energy": 1.0,
   },
   	"Air": {
@@ -35,7 +35,7 @@
 		"Magic": 1.0,
 		"Light": 1.0,
 		"Dark": 1.0,
-		"Chaos": 1.0,
+		"Chaos": 0.5,
 		"Energy": 0.5,
   },
   	"Fire": {
@@ -48,7 +48,7 @@
 		"Magic": 1.0,
 		"Light": 1.0,
 		"Dark": 1.5,
-		"Chaos": 1.0,
+		"Chaos": 0.5,
 		"Energy": 1.0,
   },
     "Water": {
@@ -61,7 +61,7 @@
 		"Magic": 1.0,
 		"Light": 1.0,
 		"Dark": 1.0,
-		"Chaos": 1.0,
+		"Chaos": 0.5,
 		"Energy": 1.0,
   },
     "Metal": {
@@ -74,7 +74,7 @@
 		"Magic": 1.5,
 		"Light": 1.0,
 		"Dark": 1.0,
-		"Chaos": 1.0,
+		"Chaos": 0.5,
 		"Energy": 0.5,
   },
     "Magic": {
@@ -100,7 +100,7 @@
 		"Magic": 1.5,
 		"Light": 0.5,
 		"Dark": 1.5,
-		"Chaos": 0.5,
+		"Chaos": 1.5,
 		"Energy": 1.0,
   },
 	"Dark": {
@@ -124,22 +124,22 @@
 		"Water": 1.5,
 		"Metal": 1.0,
 		"Magic": 0.5,
-		"Light": 1.5,
+		"Light": 1.0,
 		"Dark": 0.5,
 		"Chaos": 1.5,
 		"Energy": 1.5,
   },
 	"Energy": {
 		"Neutral": 1.0,
-		"Earth": 1.0,
+		"Earth": 0.5,
 		"Air": 1.5,
 		"Fire": 1.0,
 		"Water": 1.5,
 		"Metal": 1.5,
 		"Magic": 0.5,
-		"Light": 1.0,
+		"Light": 0.5,
 		"Dark": 1.0,
-		"Chaos": 0.5,
+		"Chaos": 1.5,
 		"Energy": 1.0,
   }
   

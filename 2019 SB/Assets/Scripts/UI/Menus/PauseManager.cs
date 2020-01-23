@@ -8,13 +8,18 @@ public class PauseManager : MonoBehaviour
     private bool isPaused;
     public GameObject pausePanel;
     public GameObject UIPanel;
+    public GameObject gm;
     public string mainMenu;
+    public FloatValue gameSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
-        isPaused = false; 
-    }
+        //gameSpeed = 1f;
+        isPaused = false;
+        gm = GameObject.FindWithTag("GameManager");
+        gameSpeed = gm.GetComponent<GameManager>().GameSpeed;
+}
 
     // Update is called once per frame
     void Update()
@@ -33,13 +38,13 @@ public class PauseManager : MonoBehaviour
         {
             UIPanel.SetActive(false);
             pausePanel.SetActive(true);
-            Time.timeScale = 0f;
+            gameSpeed.RuntimeValue = 0f;
         }
         else
         {
             pausePanel.SetActive(false);
             UIPanel.SetActive(true);
-            Time.timeScale = 1f;
+            gameSpeed.RuntimeValue = 1f;
         }
 
     }
@@ -48,7 +53,6 @@ public class PauseManager : MonoBehaviour
     {
         Destroy(GameObject.FindWithTag("GameManager"));
         SceneManager.LoadScene(mainMenu);
-        Time.timeScale = 1f;
 
     }
 
